@@ -12,11 +12,11 @@ def draw_calendar():
     month_year_str = now.strftime('%B %Y')
 
     # Set up fonts and sizes
-    font_dayname = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 44)
+    font_dayname = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 60)
     font_day = ImageFont.truetype("./fonts/Roboto-Bold.ttf", 110)
-    font_monthyear = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 32)
-    font_grid_header = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 28)
-    font_grid = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 28)
+    font_monthyear = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 45)
+    font_grid_header = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 35)
+    font_grid = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 35)
 
     # Colors
     bg_color = (0, 0, 0)
@@ -24,7 +24,7 @@ def draw_calendar():
     red = (255, 0, 0)
 
     # Image size
-    img_width, img_height = 450, 500
+    img_width, img_height = 545, 545
     image = Image.new("RGB", (img_width, img_height), bg_color)
     draw = ImageDraw.Draw(image)
 
@@ -33,7 +33,7 @@ def draw_calendar():
     dayname_width = dayname_bbox[2] - dayname_bbox[0]
     dayname_height = dayname_bbox[3] - dayname_bbox[1]
     x_dayname = (img_width - dayname_width) // 2
-    y = 15
+    y = 5
     draw.text((x_dayname, y), weekday_name, font=font_dayname, fill=white)
 
     # --- Draw Day (number) ---
@@ -54,10 +54,10 @@ def draw_calendar():
     draw.text((x_monthyear, y), month_year_str, font=font_monthyear, fill=white)
 
     # --- Draw Calendar Grid ---
-    cell_w = 60
-    cell_h = 38
+    cell_w = img_width // 7
+    cell_h = 45
     y_grid = y + monthyear_height + 30
-    x_grid = (img_width - cell_w * 7) // 2
+    x_grid = 0
 
     # Weekday headers
     weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
