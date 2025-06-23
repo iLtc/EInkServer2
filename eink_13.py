@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 from eink_calendar import draw_calendar
+from weather import draw_weather
 
 def draw_screen():
     # Colors
@@ -14,6 +15,10 @@ def draw_screen():
     # Draw Calendar
     calendar_image = draw_calendar()
     image.paste(calendar_image, (0, 30))
+
+    # Draw Weather
+    weather_image = draw_weather()
+    image.paste(weather_image, (1600 - 1050, 30))
 
     return image
 

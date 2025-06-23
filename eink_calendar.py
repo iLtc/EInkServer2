@@ -1,10 +1,10 @@
 import calendar
-import datetime
+from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
 def draw_calendar():
     # Get current date info
-    now = datetime.datetime.now()
+    now = datetime.now()
     year = now.year
     month = now.month
     day = now.day
