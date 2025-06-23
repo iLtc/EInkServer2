@@ -31,9 +31,8 @@ image = Image.open(BytesIO(response.content))
 
 draw = ImageDraw.Draw(image)
 font = ImageFont.truetype("Roboto-Regular.ttf", 24)  # Adjust size as needed
-draw.text((10, 10), "Last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"), fill="black", font=font)
+draw.text((0, 0), "Last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"), fill="black", font=font)
 
-image = image.rotate(180)
 resizedimage = image.resize(inky.resolution)
 
 inky.set_image(resizedimage)

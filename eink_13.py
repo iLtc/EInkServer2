@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+from eink_calendar import draw_calendar
 
 def draw_screen():
     # Colors
@@ -10,9 +11,9 @@ def draw_screen():
     image = Image.new("RGB", (img_width, img_height), white)
     draw = ImageDraw.Draw(image)
 
-    # Draw Test Text
-    font = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 100)
-    draw.text((100, 100), "Hello, World!", font=font, fill=black)
+    # Draw Calendar
+    calendar_image = draw_calendar()
+    image.paste(calendar_image, (0, 30))
 
     return image
 
