@@ -40,9 +40,9 @@ def get_weather():
     return results
 
 
-def draw_weather_card(icon_url, condition, temperature):
-    width, height = 350, 100
-    image = Image.new("RGB", (width, height), "white")
+def draw_weather_card(icon_url, label, condition, temperature):
+    width, height = 350, 120
+    image = Image.new("RGB", (width, height), "black")
 
     # draw icon
     icon_width, icon_height = 96, 96
@@ -53,7 +53,7 @@ def draw_weather_card(icon_url, condition, temperature):
         icon = icon.convert('RGBA')
 
     # Create a transparent background for the icon area
-    icon_bg = Image.new('RGBA', (width, height), (255, 255, 255, 0))
+    icon_bg = Image.new('RGBA', (width, height), (0, 0, 0, 0))
     icon_bg.paste(icon, (0, (height - icon_height) // 2), icon)
 
     # Composite the icon onto the main image
@@ -61,36 +61,45 @@ def draw_weather_card(icon_url, condition, temperature):
 
     draw = ImageDraw.Draw(image)
 
+    # draw label
+    font_label = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 12)
+    label_bbox = draw.textbbox((0,0), label, font=font_label)
+    label_width = label_bbox[2] - label_bbox[0]
+    label_height = label_bbox[3] - label_bbox[1]
+
+    draw.text((((width - icon_width) - label_width) / 2 + icon_width, 10), label, fill="white", font=font_label)
+
     # draw condition
     font_condition = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 30)
     condition_bbox = draw.textbbox((0,0), condition, font=font_condition)
     condition_width = condition_bbox[2] - condition_bbox[0]
     condition_height = condition_bbox[3] - condition_bbox[1]
 
-    draw.text((((width - icon_width) - condition_width) / 2 + icon_width, (height / 4) - (condition_height / 2)), condition, fill="black", font=font_condition)
+    draw.text((((width - icon_width) - condition_width) / 2 + icon_width, (height / 4) - (condition_height / 2) + 15), condition, fill="white", font=font_condition)
 
     # draw temperature
     font_temperature = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 30)
     temperature_bbox = draw.textbbox((0,0), temperature, font=font_temperature)
     temperature_width = temperature_bbox[2] - temperature_bbox[0]
     temperature_height = temperature_bbox[3] - temperature_bbox[1]
-    draw.text((((width - icon_width) - temperature_width) / 2 + icon_width, (height * 3 / 4) - (temperature_height / 2)), temperature, fill="black", font=font_temperature)
+    draw.text((((width - icon_width) - temperature_width) / 2 + icon_width, (height * 3 / 4) - (temperature_height / 2)), temperature, fill="white", font=font_temperature)
 
     # draw separator
-    draw.line((icon_width + 10, icon_height // 2, width - 10, icon_height // 2), fill="black", width=2)
+    draw.line((icon_width + 10, height // 2 + 10, width - 10, height // 2 + 10), fill="white", width=2)
 
     return image
 
 
 def draw_weather():
-    width, height = 1050, 100
+    width, height = 1050, 120
     weather_data = get_weather()
 
     image = Image.new("RGB", (width, height), "white")
 
     first_card = draw_weather_card(
         weather_data["current"]["weatherCondition"]['iconBaseUri'] + ".png",
-        "Now: " + weather_data["current"]["weatherCondition"]["description"]["text"],
+        "Now",
+        weather_data["current"]["weatherCondition"]["description"]["text"],
         "{} °F / {} °F".format(weather_data["current"]["temperature"]["degrees"], weather_data["current"]["feelsLikeTemperature"]["degrees"])
     )
     image.paste(first_card, (0, 0))
@@ -98,26 +107,30 @@ def draw_weather():
     if "today" in weather_data:
         second_card = draw_weather_card(
             weather_data["today"]["weatherCondition"]['iconBaseUri'] + ".png",
-            "Today: " + weather_data["today"]["weatherCondition"]["description"]["text"],
+            "Today",
+            weather_data["today"]["weatherCondition"]["description"]["text"],
             "Max: {} °F".format(weather_data["maxTemperature"]["degrees"])
         )
 
         third_card = draw_weather_card(
             weather_data["tonight"]["weatherCondition"]['iconBaseUri'] + ".png",
-            "Tonight: " + weather_data["tonight"]["weatherCondition"]["description"]["text"],
+            "Tonight",
+            weather_data["tonight"]["weatherCondition"]["description"]["text"],
             "Min: {} °F".format(weather_data["minTemperature"]["degrees"])
         )
 
     else:
         second_card = draw_weather_card(
             weather_data["tonight"]["weatherCondition"]['iconBaseUri'] + ".png",
-            "Tonight: " + weather_data["tonight"]["weatherCondition"]["description"]["text"],
+            "Tonight",
+            weather_data["tonight"]["weatherCondition"]["description"]["text"],
             "Min: {} °F".format(weather_data["minTemperature"]["degrees"])
         )
 
         third_card = draw_weather_card(
             weather_data["tomorrow"]["weatherCondition"]['iconBaseUri'] + ".png",
-            "Tomorrow: " + weather_data["tomorrow"]["weatherCondition"]["description"]["text"],
+            "Tomorrow",
+            weather_data["tomorrow"]["weatherCondition"]["description"]["text"],
             "Max: {} °F".format(weather_data["maxTemperature"]["degrees"])
         )
 
