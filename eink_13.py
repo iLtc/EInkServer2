@@ -14,11 +14,11 @@ def draw_screen():
 
     # Draw Calendar
     calendar_image = draw_calendar()
-    image.paste(calendar_image, (0, 30))
+    image.paste(calendar_image, (0, 0))
 
     # Draw Weather
     weather_image = draw_weather()
-    image.paste(weather_image, (1600 - 1050, 30))
+    image.paste(weather_image, (1600 - 1050, 0))
 
     return image
 

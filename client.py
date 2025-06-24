@@ -27,12 +27,6 @@ if not args.url:
 response = requests.get(args.url)
 image = Image.open(BytesIO(response.content))
 
-# add timestamp
-
-draw = ImageDraw.Draw(image)
-font = ImageFont.truetype("Roboto-Regular.ttf", 24)  # Adjust size as needed
-draw.text((0, 0), "Last updated: " + datetime.now().strftime("%Y-%m-%d %H:%M:%S"), fill="black", font=font)
-
 resizedimage = image.resize(inky.resolution)
 
 inky.set_image(resizedimage)
