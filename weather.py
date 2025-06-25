@@ -64,12 +64,23 @@ def draw_weather_card(icon_url, label, condition, temperature):
     font_label = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 12)
     label_bbox = draw.textbbox((0,0), label, font=font_label)
     label_width = label_bbox[2] - label_bbox[0]
-    label_height = label_bbox[3] - label_bbox[1]
 
     draw.text((((width - icon_width) - label_width) / 2 + icon_width, 10), label, fill="white", font=font_label)
 
     # draw condition
-    font_condition = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 30)
+    font_size = 30
+
+    while True:
+        font_condition = ImageFont.truetype("./fonts/Roboto-Regular.ttf", font_size)
+        condition_bbox = draw.textbbox((0,0), condition, font=font_condition)
+        condition_width = condition_bbox[2] - condition_bbox[0]
+
+        if condition_width < width - icon_width:
+            break
+
+        font_size -= 1
+
+    font_condition = ImageFont.truetype("./fonts/Roboto-Regular.ttf", font_size)
     condition_bbox = draw.textbbox((0,0), condition, font=font_condition)
     condition_width = condition_bbox[2] - condition_bbox[0]
     condition_height = condition_bbox[3] - condition_bbox[1]
