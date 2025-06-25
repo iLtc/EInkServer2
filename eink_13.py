@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from eink_calendar import draw_calendar
 from weather import draw_weather
+from habitica import draw_tasks
 
 def draw_screen():
     # Colors
@@ -19,6 +20,10 @@ def draw_screen():
     # Draw Weather
     weather_image = draw_weather()
     image.paste(weather_image, (1600 - 1050, 0))
+
+    # Draw Habitica
+    habitica_image = draw_tasks()
+    image.paste(habitica_image, (1600 - 1050, 125))
 
     return image
 

@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from datetime import datetime, timezone
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
-from pprint import pprint
 
 load_dotenv()
 
