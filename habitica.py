@@ -2,7 +2,6 @@ import requests
 import os
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
-from pprint import pprint
 
 load_dotenv()
 
