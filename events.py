@@ -56,8 +56,8 @@ def get_events(calendars):
 
             todayEvents.append({
                 "summary": event.get("SUMMARY"),
-                "start": event.start,
-                "end": event.end,
+                "start": event.start.astimezone(timezone_pacific),
+                "end": event.end.astimezone(timezone_pacific),
                 "calendar": calendar["name"],
                 "color": calendar["color"],
             })
@@ -68,8 +68,8 @@ def get_events(calendars):
 
             tomorrowEvents.append({
                 "summary": event.get("SUMMARY"),
-                "start": event.start,
-                "end": event.end,
+                "start": event.start.astimezone(timezone_pacific),
+                "end": event.end.astimezone(timezone_pacific),
                 "calendar": calendar["name"],
                 "color": calendar["color"],
             })
@@ -86,10 +86,10 @@ def draw_event_card(event):
     draw = ImageDraw.Draw(image)
 
     # draw left color box
-    draw.rounded_rectangle([(10, 0), (20, height)], outline=event["color"], fill=event["color"], width=3, radius=20)
+    draw.rounded_rectangle([(0, 0), (10, height)], outline=event["color"], fill=event["color"], width=3, radius=20)
 
     # draw right text
-    font = ImageFont.truetype("./fonts/Roboto-Light.ttf", 15)
+    font = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 15)
     right_text = "[{} - {}]".format(event["start"].astimezone(timezone_pacific).strftime("%I:%M %p"), event["end"].astimezone(timezone_pacific).strftime("%I:%M %p"))
     right_text_bbox = draw.textbbox((0, 0), right_text, font=font)
     right_text_height = right_text_bbox[3] - right_text_bbox[1]
@@ -115,7 +115,7 @@ def draw_event_card(event):
     left_text_bbox = draw.textbbox((0, 0), left_text, font=font)
     left_text_height = left_text_bbox[3] - left_text_bbox[1]
 
-    draw.text((30, (height - left_text_height) / 2 - left_text_bbox[1]), left_text, font=font, fill="black")
+    draw.text((20, (height - left_text_height) / 2 - left_text_bbox[1]), left_text, font=font, fill="black")
 
     return image
 
