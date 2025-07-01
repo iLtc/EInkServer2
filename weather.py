@@ -40,7 +40,7 @@ def get_weather():
 
 
 def draw_weather_card(icon_url, label, condition, temperature):
-    width, height = 350, 120
+    width, height = 398, 120
     image = Image.new("RGB", (width, height), "black")
 
     # draw icon
@@ -101,7 +101,7 @@ def draw_weather_card(icon_url, label, condition, temperature):
 
 
 def draw_weather():
-    width, height = 1050, 120
+    width, height = 1195, 120
     weather_data = get_weather()
 
     image = Image.new("RGB", (width, height), "white")
@@ -144,8 +144,8 @@ def draw_weather():
             "Max: {} °F".format(weather_data["maxTemperature"]["degrees"])
         )
 
-    image.paste(second_card, (1050 // 3, 0))
-    image.paste(third_card, (1050 // 3 * 2, 0))
+    image.paste(second_card, (width // 3, 0))
+    image.paste(third_card, (width // 3 * 2, 0))
 
     return image
 

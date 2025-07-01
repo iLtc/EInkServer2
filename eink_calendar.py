@@ -24,7 +24,7 @@ def draw_calendar():
     red = (255, 0, 0)
 
     # Image size
-    img_width, img_height = 545, 545
+    img_width, img_height = 400, 545
     image = Image.new("RGB", (img_width, img_height), bg_color)
     draw = ImageDraw.Draw(image)
 
@@ -60,7 +60,7 @@ def draw_calendar():
     x_grid = 0
 
     # Weekday headers
-    weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     for i, wd in enumerate(weekdays):
         color = red
         wd_bbox = draw.textbbox((0,0), wd, font=font_grid_header)
@@ -80,7 +80,7 @@ def draw_calendar():
                 continue
             is_today = (d == day)
             color = red if (i == 0 or i == 6) else white  # Sunday/Saturday red
-            day_str = f"{d:2d}"
+            day_str = str(d)
             day_bbox = draw.textbbox((0,0), day_str, font=font_grid)
             day_width = day_bbox[2] - day_bbox[0]
             day_height = day_bbox[3] - day_bbox[1]

@@ -3,8 +3,8 @@
 import argparse
 import sys
 import requests
-from datetime import datetime
 from io import BytesIO
+import os
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -23,8 +23,12 @@ if not args.url:
     {sys.argv[0]} --url https://example.com/image.png""")
     sys.exit(1)
 
+headers = {
+    "CF-Access-Client-Id": os.getenv("CF_ACCESS_CLIENT_ID"),
+    "CF-Access-Client-Secret": os.getenv("CF_ACCESS_CLIENT_SECRET"),
+}
 
-response = requests.get(args.url)
+response = requests.get(args.url, headers=headers)
 image = Image.open(BytesIO(response.content))
 
 resizedimage = image.resize(inky.resolution)

@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 load_dotenv()
 
 
-def get_tasks():
+def get_habits():
     headers = {
         "x-api-user": os.getenv("HABITICA_USER_ID"),
         "x-api-key": os.getenv("HABITICA_API_KEY")
@@ -18,11 +18,11 @@ def get_tasks():
 
 
 def draw_task_card(task, dark_background=False, center_text=False):
-    image_width, image_height = 525, 70
+    image_width, image_height = 500, 50
     image = Image.new("RGB", (image_width, image_height), "white")
     draw = ImageDraw.Draw(image)
 
-    draw.rounded_rectangle([(0, 0), (image_width, image_height)], outline="purple", fill="purple" if dark_background else "white", width=3, radius=20)
+    draw.rounded_rectangle([(0, 0), (image_width, image_height)], outline="purple", fill="purple" if dark_background else "white", width=3, radius=15)
 
     font = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 25)
     text_bbox = draw.textbbox((0, 0), task, font=font)
@@ -37,9 +37,9 @@ def draw_task_card(task, dark_background=False, center_text=False):
     return image
 
 
-def draw_tasks():
-    tasks = get_tasks()
-    image_width, image_height = 525, 1080
+def draw_habits():
+    tasks = get_habits()
+    image_width, image_height = 500, 1080
     image = Image.new("RGB", (image_width, image_height), "white")
 
     title_image = draw_task_card("HABITICA", dark_background=True, center_text=True)
@@ -47,11 +47,11 @@ def draw_tasks():
 
     for i, task in enumerate(tasks):
         task_image = draw_task_card(task)
-        image.paste(task_image, (0, (i + 1) * 75))
+        image.paste(task_image, (0, (i + 1) * 55))
 
     return image
 
 
 if __name__ == "__main__":
-    image = draw_tasks()
+    image = draw_habits()
     image.show()

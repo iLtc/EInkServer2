@@ -81,7 +81,7 @@ def get_events(calendars):
 
 
 def draw_event_card(event):
-    width, height = 545, 40
+    width, height = 400, 40
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
 
@@ -95,7 +95,7 @@ def draw_event_card(event):
     right_text_height = right_text_bbox[3] - right_text_bbox[1]
     right_text_width = right_text_bbox[2] - right_text_bbox[0]
 
-    draw.text((width - right_text_width - 10, (height - right_text_height) / 2 - right_text_bbox[1]), right_text, font=font, fill="black")
+    draw.text((width - right_text_width, (height - right_text_height) / 2 - right_text_bbox[1]), right_text, font=font, fill="black")
 
     # draw left text
     font = ImageFont.truetype("./fonts/Roboto-Regular.ttf", 25)
@@ -123,7 +123,7 @@ def draw_events():
     calendars = get_calendars()
     todayEvents, tomorrowEvents = get_events(calendars)
 
-    img_width, img_height = 545, 655
+    img_width, img_height = 400, 655
     image = Image.new("RGB", (img_width, img_height), "white")
     draw = ImageDraw.Draw(image)
 
