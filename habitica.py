@@ -2,6 +2,8 @@ import requests
 import os
 from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
+from datetime import datetime
+import calendar
 
 load_dotenv()
 
@@ -14,7 +16,9 @@ def get_habits():
     response = requests.get("https://habitica.com/api/v3/tasks/user", headers=headers).json()['data']
     daily_tasks = [task["text"] for task in response if task["type"] == "daily" and task["completed"] == False and task["isDue"] == True]
     habit_tasks = [task["text"] for task in response if task["type"] == "habit" and task["counterUp"] == 0]
-    return daily_tasks + habit_tasks
+    rewards = [task for task in response if task["type"] == "reward"]
+
+    return daily_tasks + habit_tasks, rewards
 
 
 def draw_task_card(task, dark_background=False, center_text=False):
@@ -38,11 +42,16 @@ def draw_task_card(task, dark_background=False, center_text=False):
 
 
 def draw_habits():
-    tasks = get_habits()
+    tasks, rewards = get_habits()
     image_width, image_height = 500, 1080
     image = Image.new("RGB", (image_width, image_height), "white")
 
-    title_image = draw_task_card("HABITICA", dark_background=True, center_text=True)
+    debt = rewards[0]['value']
+    now = datetime.now()
+    left_days = calendar.monthrange(now.year, now.month)[1] - now.day
+    debt_per_day = debt / left_days
+
+    title_image = draw_task_card("HABITICA ({}/{})".format(debt, debt_per_day), dark_background=True, center_text=True)
     image.paste(title_image, (0, 0))
 
     for i, task in enumerate(tasks):
