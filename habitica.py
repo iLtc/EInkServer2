@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
 import calendar
+from math import ceil
 
 load_dotenv()
 
@@ -49,7 +50,7 @@ def draw_habits():
     debt = rewards[0]['value']
     now = datetime.now()
     left_days = calendar.monthrange(now.year, now.month)[1] - now.day
-    debt_per_day = debt / left_days
+    debt_per_day = ceil(debt / left_days)
 
     title_image = draw_task_card("HABITICA ({}/{})".format(debt, debt_per_day), dark_background=True, center_text=True)
     image.paste(title_image, (0, 0))
