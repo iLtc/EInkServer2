@@ -16,7 +16,7 @@ def get_tasks():
         "CF-Access-Client-Secret": os.getenv("CF_ACCESS_CLIENT_SECRET")
     }
     response = requests.get(os.getenv("TASK_SERVER_URL"), headers=headers).json()
-    tasks = [task for task in response if not task["completed"]]
+    tasks = [task for task in response if not task["completed"] and task["taskStatus"] != "Dropped"]
 
     inbox_tasks = [task for task in tasks if task["inInbox"]]
     overdue_tasks = [task for task in tasks if task["taskStatus"] == "Overdue"]
@@ -28,7 +28,7 @@ def get_tasks():
     return inbox_tasks, overdue_tasks, duesoon_tasks
 
 
-def draw_task_card(task, description=None, due_date=None, overdue=False, dark_background=False, center_text=False):
+def draw_task_card(task, description=None, due_date=None, color="black", dark_background=False, center_text=False):
     card_width, card_height = 690, 40
     card = Image.new("RGB", (card_width, card_height), "white" if not dark_background else "purple")
 
@@ -52,9 +52,9 @@ def draw_task_card(task, description=None, due_date=None, overdue=False, dark_ba
         description_height = description_bbox[3] - description_bbox[1]
 
         if due_date:
-            draw.text((card_width - description_width, (card_height // 4 - description_height // 2) - description_bbox[1] - 1), description, fill="black" if not overdue else "red", font=font)
+            draw.text((card_width - description_width, (card_height // 4 - description_height // 2) - description_bbox[1] - 1), description, fill=color, font=font)
         else:
-            draw.text((card_width - description_width, (card_height // 2 - description_height // 2) - description_bbox[1] - 1), description, fill="black" if not overdue else "red", font=font)
+            draw.text((card_width - description_width, (card_height // 2 - description_height // 2) - description_bbox[1] - 1), description, fill=color, font=font)
 
     else:
         description_width = 0
@@ -67,9 +67,9 @@ def draw_task_card(task, description=None, due_date=None, overdue=False, dark_ba
         due_date_height = due_date_bbox[3] - due_date_bbox[1]
 
         if description:
-            draw.text((card_width - due_date_width, (card_height // 4 * 3 - due_date_height // 2) - due_date_bbox[1] - 1), due_date, fill="black" if not overdue else "red", font=font)
+            draw.text((card_width - due_date_width, (card_height // 4 * 3 - due_date_height // 2) - due_date_bbox[1] - 1), due_date, fill=color, font=font)
         else:
-            draw.text((card_width - due_date_width, (card_height // 2 - due_date_height // 2) - due_date_bbox[1] - 1), due_date, fill="black" if not overdue else "red", font=font)
+            draw.text((card_width - due_date_width, (card_height // 2 - due_date_height // 2) - due_date_bbox[1] - 1), due_date, fill=color, font=font)
 
     else:
         due_date_width = 0
@@ -94,7 +94,7 @@ def draw_task_card(task, description=None, due_date=None, overdue=False, dark_ba
     task_bbox = draw.textbbox((0, 0), task, font=font)
     task_height = task_bbox[3] - task_bbox[1]
 
-    draw.text((0, (card_height - task_height) // 2 - task_bbox[1] - 1), task, fill="black" if not overdue else "red", font=font)
+    draw.text((0, (card_height - task_height) // 2 - task_bbox[1] - 1), task, fill=color, font=font)
 
     # draw separator line
     draw.line((0, card_height - 2, card_width, card_height - 2), fill="black", width=2)
@@ -114,15 +114,28 @@ def draw_tasks():
 
     for task in inbox:
         due_date = datetime.fromisoformat(task["dueDate"]).astimezone(timezone_pacific).strftime("%Y-%m-%d") if task["dueDate"] else None
-        task_image = draw_task_card(task["name"], "Inbox", due_date, task["taskStatus"] == "Overdue")
+        color = "black"
+
+        if task["taskStatus"] == "Overdue":
+            color = "red"
+        elif task["taskStatus"] == "DueSoon":
+            color = "orangered"
+
+        task_image = draw_task_card(task["name"], "Inbox", due_date, color=color)
         image.paste(task_image, (0, y))
         y += 45
 
     for task in overdue + duesoon:
         description = task['containingProjectName'] if task["containingProjectName"] else None
         due_date = datetime.fromisoformat(task["dueDate"]).astimezone(timezone_pacific).strftime("%Y-%m-%d") if task["dueDate"] else None
+        color = "black"
 
-        task_image = draw_task_card(task["name"], description, due_date, task["taskStatus"] == "Overdue")
+        if task["taskStatus"] == "Overdue":
+            color = "red"
+        elif task["taskStatus"] == "DueSoon":
+            color = "orangered"
+
+        task_image = draw_task_card(task["name"], description, due_date, color=color)
         image.paste(task_image, (0, y))
         y += 45
 
