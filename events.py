@@ -81,7 +81,7 @@ def get_events(calendars):
 
 
 def draw_event_card(event):
-    width, height = 400, 40
+    width, height = 590, 40
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
 
@@ -123,7 +123,7 @@ def draw_events():
     calendars = get_calendars()
     todayEvents, tomorrowEvents = get_events(calendars)
 
-    img_width, img_height = 400, 655
+    img_width, img_height = 590, 655
     image = Image.new("RGB", (img_width, img_height), "white")
     draw = ImageDraw.Draw(image)
 

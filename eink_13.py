@@ -21,19 +21,19 @@ def draw_screen():
 
     # Draw Events
     events_image = draw_events()
-    image.paste(events_image, (0, 550))
+    image.paste(events_image, (0, 595))
 
     # Draw Weather
     weather_image = draw_weather()
-    image.paste(weather_image, (405, 0))
+    image.paste(weather_image, (595, 0))
 
     # Draw Habitica
     habitica_image = draw_habits()
-    image.paste(habitica_image, (405, 125))
+    image.paste(habitica_image, (595, 125))
 
     # Draw Tasks
     tasks_image = draw_tasks()
-    image.paste(tasks_image, (910, 125))
+    image.paste(tasks_image, (1000, 125))
 
     return image
 

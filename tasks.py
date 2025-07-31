@@ -29,7 +29,7 @@ def get_tasks():
 
 
 def draw_task_card(task, description=None, due_date=None, color="black", dark_background=False, center_text=False):
-    card_width, card_height = 690, 40
+    card_width, card_height = 600, 40
     card = Image.new("RGB", (card_width, card_height), "white" if not dark_background else "purple")
 
     draw = ImageDraw.Draw(card)
@@ -104,7 +104,7 @@ def draw_task_card(task, description=None, due_date=None, color="black", dark_ba
 
 def draw_tasks():
     inbox, overdue, duesoon = get_tasks()
-    image_width, image_height = 690, 1080
+    image_width, image_height = 600, 1080
     image = Image.new("RGB", (image_width, image_height), "white")
 
     title_image = draw_task_card("TASKS", dark_background=True, center_text=True)

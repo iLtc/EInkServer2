@@ -24,7 +24,7 @@ def draw_calendar():
     red = (255, 0, 0)
 
     # Image size
-    img_width, img_height = 400, 545
+    img_width, img_height = 590, 590
     image = Image.new("RGB", (img_width, img_height), bg_color)
     draw = ImageDraw.Draw(image)
 

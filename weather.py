@@ -40,7 +40,7 @@ def get_weather():
 
 
 def draw_weather_card(icon_url, label, condition, temperature):
-    width, height = 398, 120
+    width, height = 335, 120
     image = Image.new("RGB", (width, height), "black")
 
     # draw icon
@@ -101,7 +101,7 @@ def draw_weather_card(icon_url, label, condition, temperature):
 
 
 def draw_weather():
-    width, height = 1195, 120
+    width, height = 1005, 120
     weather_data = get_weather()
 
     image = Image.new("RGB", (width, height), "white")

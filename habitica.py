@@ -24,7 +24,7 @@ def get_habits():
 
 
 def draw_task_card(task, dark_background=False, center_text=False):
-    image_width, image_height = 500, 50
+    image_width, image_height = 400, 50
     image = Image.new("RGB", (image_width, image_height), "white")
     draw = ImageDraw.Draw(image)
 
@@ -45,7 +45,7 @@ def draw_task_card(task, dark_background=False, center_text=False):
 
 def draw_habits():
     tasks, rewards = get_habits()
-    image_width, image_height = 500, 1080
+    image_width, image_height = 400, 1080
     image = Image.new("RGB", (image_width, image_height), "white")
 
     debt = rewards[0]['value']
