@@ -12,7 +12,8 @@ load_dotenv()
 def get_habits():
     headers = {
         "x-api-user": os.getenv("HABITICA_USER_ID"),
-        "x-api-key": os.getenv("HABITICA_API_KEY")
+        "x-api-key": os.getenv("HABITICA_API_KEY"),
+        "x-client": os.getenv("HABITICA_CLIENT_ID")
     }
     response = requests.get("https://habitica.com/api/v3/tasks/user", headers=headers).json()['data']
     daily_tasks = [task["text"] for task in response if task["type"] == "daily" and task["completed"] == False and task["isDue"] == True]
